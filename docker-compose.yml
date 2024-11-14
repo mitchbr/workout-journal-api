@@ -1,0 +1,20 @@
+services: 
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRESDB_ROOT_PASSWORD}
+      POSTGRES_USER: ${POSTGRESDB_USER}
+      POSTGRES_DB: ${POSTGRESDB_DATABASE}
+    ports:
+      - ${DB_LOCAL_PORT}:${DB_DOCKER_PORT}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  app:
+    container_name: workout_joural_app
+    restart: always
+    build: .
+    ports:
+      - ${NODE_LOCAL_PORT}:${NODE_DOCKER_PORT}
+
+volumes:
+  db_data: 
