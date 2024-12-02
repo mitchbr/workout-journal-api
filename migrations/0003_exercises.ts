@@ -8,9 +8,11 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('workout_id', 'varchar(36)', (col) => 
       col.references('workouts.id').onDelete('cascade').notNull(),
     )
-    .addColumn('weight', 'integer', (col) => col.defaultTo(0).notNull())
-    .addColumn('reps', 'integer', (col) => col.defaultTo(0).notNull())
-    .addColumn('note', 'varchar(36)', (col) => col.defaultTo('').notNull())
+    .addColumn('title', 'varchar(36)', (col) => col.defaultTo('').notNull())
+    .addColumn('type', 'varchar(36)', (col) => col.defaultTo('').notNull())
+    .addColumn('info', 'json', (col) => col.defaultTo('{}').notNull())
+    .addColumn('location', 'varchar(255)', (col) => col.defaultTo('').notNull())
+    .addColumn('note', 'varchar(255)', (col) => col.defaultTo('').notNull())
     .addColumn('created_at', 'timestamp', (col) =>
       col.defaultTo(sql`now()`).notNull(),
     )

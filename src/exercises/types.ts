@@ -9,8 +9,10 @@ import {
 export interface ExercisesTable {
   id: Generated<string>
   workout_id: string
-  weight: number
-  reps: number
+  title: string
+  type: string
+  info: ColumnType<Object>
+  location: string
   note: string
   Exercises_date: ColumnType<Date, string | undefined, never>
   created_at: ColumnType<Date, string | undefined, never>

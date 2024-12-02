@@ -10,7 +10,7 @@
 
 source .env
 
-CONTAINER_NAME=backend-boilerplate-db-1
+CONTAINER_NAME=$(basename "$(pwd)")-db-1
 
 while (( "$#" )); do
   case "$1" in

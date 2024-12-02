@@ -10,6 +10,7 @@ export async function authRequest(req: Request, res: Response, next: NextFunctio
   const token = req.headers['auth-key'];
   const username = req.headers['username'];
   if (!token || !username) {
+    console.log(`401: Missing item: ${(!token) ? 'token,' : ''} ${(!username) ? 'username,' : ''}`)
     res.status(401).send({message: "authentication failed"});
     return
   }
@@ -23,6 +24,7 @@ export async function authRequest(req: Request, res: Response, next: NextFunctio
       .execute();
 
       if (user.length === 0) {
+        console.log('401: user DNE')
         res.status(401).send({message: "authentication failed"});
         return
       }
@@ -32,6 +34,7 @@ export async function authRequest(req: Request, res: Response, next: NextFunctio
   }
 
   if (token !== process.env.API_KEY) {
+        console.log('401: bad key')
     res.status(401).send({message: "authentication failed, bad key"});
     return
   }

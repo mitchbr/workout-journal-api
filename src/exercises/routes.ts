@@ -7,11 +7,17 @@ import { db } from '../db';
 export const exerciseRouter = Router();
 
 exerciseRouter.get('/', authRequest, async (req: Request, res: Response) => {
+  let exerciseQuery = db
+    .selectFrom('exercises')
+    .selectAll()
+
+  if (req.query.workout_id__in !== undefined) {
+    const workoutIds = (req.query.workout_id__in as string).split(',')
+    exerciseQuery = exerciseQuery
+      .where('workout_id', 'in', workoutIds)
+  }
   try {
-    const exercises = await db
-      .selectFrom('exercises')
-      .selectAll()
-      .execute()
+    const exercises = await exerciseQuery.execute()
     res.status(200).send(exercises)
   } catch (err) {
     console.log(err)
@@ -35,7 +41,7 @@ exerciseRouter.get('/:id', authRequest, async (req: Request, res: Response) => {
 })
 
 exerciseRouter.post('/', authRequest, async (req: Request, res: Response) => {
-  const { workout_id, weight, reps, note } = req.body
+  const { workout_id, title, type, info, location, note } = req.body
   try {
     const id = uuid4();
     const result = await db
@@ -43,8 +49,10 @@ exerciseRouter.post('/', authRequest, async (req: Request, res: Response) => {
       .values({
         id: id,
         workout_id: workout_id,
-        weight: weight,
-        reps: reps,
+        title: title,
+        type: type,
+        info: info,
+        location: location,
         note: note,
       })
       .execute()

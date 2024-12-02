@@ -7,11 +7,22 @@ import { db } from '../db';
 export const workoutRouter = Router();
 
 workoutRouter.get('/', authRequest, async (req: Request, res: Response) => {
+  let workoutQuery = db
+  .selectFrom('workouts')
+  .selectAll()
+
+  if (req.query.start_date !== undefined) {
+    // TODO: Validate start_date
+    const startDate = new Date(req.query.start_date as string)
+    const endDate = new Date(startDate)
+    endDate.setDate(endDate.getDate() + 7)
+    workoutQuery = workoutQuery
+      .where('workout_date', '>=', startDate)
+      .where('workout_date', '<', endDate)
+  }
+
   try {
-    const workouts = await db
-      .selectFrom('workouts')
-      .selectAll()
-      .execute()
+    const workouts = await workoutQuery.execute()
     res.status(200).send(workouts)
   } catch (err) {
     console.log(err)
