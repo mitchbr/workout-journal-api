@@ -18,7 +18,9 @@ while (( "$#" )); do
       DATE=$(date +"%Y_%m_%d")
       mkdir -p db_backups
       # docker exec <container-name> pg_dump -U <mydbUser> -F t <mydbName> > mydb.tar
-      docker exec $CONTAINER_NAME pg_dump -U $POSTGRESDB_USER -F t $POSTGRESDB_DATABASE > db_backups/boilerplate_db_$DATE.tar
+      BACKUP_NAME=$CONTAINER_NAME-$DATE.tar
+      docker exec $CONTAINER_NAME pg_dump -U $POSTGRESDB_USER -F t $POSTGRESDB_DATABASE > db_backups/$BACKUP_NAME
+      echo "Made backup $BACKUP_NAME"
       shift
       ;;
     -r|--restore)
