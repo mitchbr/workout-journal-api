@@ -12,9 +12,9 @@ const port = process.env.NODE_DOCKER_PORT
 const app = express()
 app.use(express.json())
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*"); // TODO: Make env
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, auth-key, username");
-  res.header("Access-Control-Allow-Methods", "*");
+  res.header("Access-Control-Allow-Methods", "*"); // TODO: Make router specific?
   next();
 });
 

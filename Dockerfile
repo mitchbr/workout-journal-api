@@ -1,11 +1,20 @@
-FROM node:18
+FROM node:18-alpine
 
 WORKDIR /usr/src/app
+# TODO: Permissions
+# RUN chown node:node ./
+# USER node
 
 COPY package*.json ./
-RUN npm install
+# TODO: use yarn?
+# TODO: split install based on env?
+RUN yarn
 
+# TODO: Only copy dist for prod?
 COPY . .
 
+# TODO: Thefuck is this for?
 EXPOSE 1337
-CMD ["npm", "run", "dev"]
+
+# TODO: Change this
+CMD ["yarn", "dev"]
